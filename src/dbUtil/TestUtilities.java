@@ -65,10 +65,14 @@ public class TestUtilities {
 				break;
 			}
 			case 10: {
+				callInsertNewArrayListData();
+				break;
+			}
+			case 13: {
 				testObj.closeDB(); //close the DB connection 
 				break;
 			}
-			case 11: {
+			case 14: {
 				done = true;
 				System.out.println("Good bye");
 				break;
@@ -88,14 +92,15 @@ public class TestUtilities {
 		System.out.println("7)  open manual DB ");
 		System.out.println("8)  call matchWorkOnSameProject()");
 		System.out.println("9)  call getEmployeeHasNoPROJECT()");
-		System.out.println("10)  close the DB");
-		System.out.println("11) quit");
+		System.out.println("10) call callInsertNewArrayListData()");
+		System.out.println("13)  close the DB");
+		System.out.println("14) quit");
 	}
 
 	static int getChoice() {
 		String input;
 		int i = 0;
-		while (i < 1 || i > 14) {
+		while (i < 1 || i > 15) {
 			try {
 				System.out.print("Please enter an integer between 1-10: ");
 				input = keyboard.nextLine();
@@ -228,5 +233,19 @@ public class TestUtilities {
 		}
 	}
 
+	// test insertNewArrayListData()
+	static void callInsertNewArrayListData(){
+		int successRow;
+		String [][] test = new String[3][3];
+		for(int i = 0; i < test.length;i++){
+			test[i][0] = "000110004";
+			test[i][1] = ""+i+1;
+			test[i][2] = "50";
+		}
+		System.out.println("Insert Default data into works_on");
+		System.out.println("*********************************************");
+		successRow = testObj.insertNewArrayListData(test);
+		System.out.println("Susccess Row inserted: "+successRow);
+	}
 
 }//MyUtilitiesTest	

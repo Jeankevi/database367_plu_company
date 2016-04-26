@@ -302,6 +302,38 @@ public class Utilities {
 	 * @param data is a nx3 table of Strings where each row has the format (essn, pno, hours)
 	 * @return number of tuples successfully inserted into works_on
 	 */
-
+	public int insertNewArrayListData(String[][] array){
+		int success = 0;
+		String sql = null;
+		
+		try{
+			sql = "INSERT into works_on (essn,pno,hours) "+ 
+				  "VALUES (?,?,?) ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);	
+			
+			
+			
+			for(int i = 0; i < array.length;i++){
+				//PreparedStatement pstmt = conn.prepareStatement(sql);	
+				pstmt.clearParameters();
+				for(int j = 0; j < array.length; j++){
+					if(j == 0)
+						pstmt.setString(j+1, array[i][j]);
+					else if(j == 1)
+						pstmt.setInt(j+1, Integer.parseInt(array[i][j]));
+					else
+						pstmt.setInt(j+1, Integer.parseInt((array[i][j])));
+				}
+				pstmt.executeUpdate();
+				success++;
+			}
+			//pstmt.setString(1, "");
+			//rset = pstmt.executeQuery();
+		}catch(SQLException e){
+			System.out.println("createStatement "+ e.getMessage() + sql);
+		}
+		return success;
+	}
+	
 
 }// Utilities class
