@@ -1,10 +1,4 @@
 package dbUtil;
-/**
- * This class provides some basic methods for accessing a MySQL DB.
- * It uses Java JDBC and MySQL JDBC driver, mysql-connector-java-5.1.18-bin.jar
- * to open an modify the DB.
- * 
- */
 
 
 // You need to import the java.sql package to use JDBC methods and classes
@@ -305,16 +299,15 @@ public class Utilities {
 	public int insertNewArrayListData(String[][] array){
 		int success = 0;
 		String sql = null;
-		
+
 		try{
 			sql = "INSERT into works_on (essn,pno,hours) "+ 
-				  "VALUES (?,?,?) ";
+					"VALUES (?,?,?) ";
 			PreparedStatement pstmt = conn.prepareStatement(sql);	
-			
-			
-			
+
+
+
 			for(int i = 0; i < array.length;i++){
-				//PreparedStatement pstmt = conn.prepareStatement(sql);	
 				pstmt.clearParameters();
 				for(int j = 0; j < array.length; j++){
 					if(j == 0)
@@ -327,13 +320,90 @@ public class Utilities {
 				pstmt.executeUpdate();
 				success++;
 			}
-			//pstmt.setString(1, "");
-			//rset = pstmt.executeQuery();
 		}catch(SQLException e){
 			System.out.println("createStatement "+ e.getMessage() + sql);
 		}
 		return success;
 	}
+
+	/**
+	 * This method will update the hours of a Works_On tuple for specific employee with their specific project
+	 * @param essn employee ssn 
+	 * @param pno project number that employee is working on
+	 * @param hours new updated hours 
+	 * @return Return String success if successful update the hours, otherwise return un-success
+	 */
+	public String updateHoursWORKS_ON(String essn,int pno, int hours){
+		String success = "Success";
+		String sql = null;
+
+		try {
+			// create a Statement and an SQL string for the statement
+			sql = "UPDATE works_on SET hours = ? " +
+					"WHERE pno=" + pno + " and essn=" + essn + " ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.clearParameters();
+			pstmt.setInt(1,hours); //set the 1 parameter
+			pstmt.executeUpdate();
+		}catch(SQLException e){
+			System.out.println("createStatement "+ e.getMessage() + sql);
+			success = "Unsuccess update employee information";
+		}
+
+		return success;
+	}// end updateHoursWORKS_ON
+
+	/**
+	 * This method will delete the specific employee and their specific project number 
+	 * from WORKS_ON relation 
+	 * @param essn employee ssn 
+	 * @param pno project number that employee is working on
+	 * @return Return String success if successful delete the tuple, otherwise return un-success
+	 */
+	public String deleteEmployeeProject(String essn,int pno){
+		String success = "Success update employee information";
+		String sql = null;
+		
+		try {
+			// create a Statement and an SQL string for the statement
+			sql = "DELETE from works_on " +
+				  "WHERE pno=" + pno + " and essn=" + essn + " ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+		}catch(SQLException e){
+			System.out.println("createStatement "+ e.getMessage() + sql);
+			success = "Unsuccess update employee information";
+		}
+		
+		return success;
+	}// end deleteEmployeeProject
 	
+	/**
+	 * 
+	 * @param dnumber
+	 * @param dlocation
+	 * @return
+	 */
+	public String addNewDepartmentLocation(int dnumber,String dlocation){
+		String success = "Success update new department location information";
+		String sql = null;
+		
+		try {
+			// create a Statement and an SQL string for the statement
+			sql = "INSERT into dept_locations " +
+				  "Value (?,?) ";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			pstmt.clearParameters();
+			pstmt.setInt(1, dnumber);
+			pstmt.setString(2, dlocation);
+			pstmt.executeUpdate();
+		}catch(SQLException e){
+			System.out.println("createStatement "+ e.getMessage() + sql);
+			success = "Unsuccess update new department location information";
+		}
+		
+		return success;
+	}// end addNewDepartmentLocation
 
 }// Utilities class

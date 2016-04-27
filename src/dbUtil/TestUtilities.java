@@ -1,7 +1,4 @@
 package dbUtil;
-/**
- * This program is used to test the Utilities class
- */
 
 // You need to import the java.sql package to use JDBC
 import java.sql.*; 
@@ -68,11 +65,23 @@ public class TestUtilities {
 				callInsertNewArrayListData();
 				break;
 			}
+			case 11: {
+				callUpdateEmployeeHour();
+				break;
+			}
+			case 12: {
+				callDeleteEmployeeOnWORKS_ON();
+				break;
+			}
 			case 13: {
-				testObj.closeDB(); //close the DB connection 
+				callAddNewDepartmentLocation();
 				break;
 			}
 			case 14: {
+				testObj.closeDB(); //close the DB connection 
+				break;
+			}
+			case 15: {
 				done = true;
 				System.out.println("Good bye");
 				break;
@@ -92,15 +101,18 @@ public class TestUtilities {
 		System.out.println("7)  open manual DB ");
 		System.out.println("8)  call matchWorkOnSameProject()");
 		System.out.println("9)  call getEmployeeHasNoPROJECT()");
-		System.out.println("10) call callInsertNewArrayListData()");
-		System.out.println("13)  close the DB");
-		System.out.println("14) quit");
+		System.out.println("10) call insertNewArrayListData()");
+		System.out.println("11) call updateEmployeeHours()");
+		System.out.println("12) call deleteEmployeeOnWORKS_ON()");
+		System.out.println("13) call addNewDepartmentLocation()");
+		System.out.println("14) close the DB");
+		System.out.println("15) quit");
 	}
 
 	static int getChoice() {
 		String input;
 		int i = 0;
-		while (i < 1 || i > 15) {
+		while (i < 1 || i > 16) {
 			try {
 				System.out.print("Please enter an integer between 1-10: ");
 				input = keyboard.nextLine();
@@ -239,7 +251,7 @@ public class TestUtilities {
 		String [][] test = new String[3][3];
 		for(int i = 0; i < test.length;i++){
 			test[i][0] = "000110004";
-			test[i][1] = ""+i+1;
+			test[i][1] = ""+(i+1);
 			test[i][2] = "50";
 		}
 		System.out.println("Insert Default data into works_on");
@@ -247,5 +259,43 @@ public class TestUtilities {
 		successRow = testObj.insertNewArrayListData(test);
 		System.out.println("Susccess Row inserted: "+successRow);
 	}
+
+	//test updateHoursWORKS_ON
+	public static void callUpdateEmployeeHour(){
+		System.out.print("Please enter employee ssn: ");
+		String ssn = keyboard.nextLine();
+		System.out.print("Please enter employee project number: ");
+		int pno = Integer.parseInt(keyboard.nextLine());
+		System.out.print("Please enter new hours: ");
+		int hours = Integer.parseInt(keyboard.nextLine());
+		System.out.println("Update the hours for the employee with ssn: " + ssn + " , pno: " + pno);
+		System.out.println("*********************************************");
+		System.out.println(testObj.updateHoursWORKS_ON(ssn, pno, hours));
+
+	}
+
+	//test deleteEmployeeProject
+	public static void callDeleteEmployeeOnWORKS_ON(){
+		System.out.print("Please enter employee ssn: ");
+		String ssn = keyboard.nextLine();
+		System.out.print("Please enter employee project number: ");
+		int pno = Integer.parseInt(keyboard.nextLine());
+		System.out.println("Delete the employee with ssn: " + ssn + " , pno: " + pno);
+		System.out.println("*********************************************");
+		System.out.println(testObj.deleteEmployeeProject(ssn, pno));
+
+	}
+	
+	//test addNewDepartmentLocation
+		public static void callAddNewDepartmentLocation(){
+			System.out.print("Please enter department number: ");
+			int dnumber = Integer.parseInt(keyboard.nextLine());
+			System.out.print("Please enter new department location: ");
+			String dlocations = keyboard.nextLine();
+			System.out.println("Add new department location with number: " + dnumber + " , location: " + dlocations);
+			System.out.println("*********************************************");
+			System.out.println(testObj.addNewDepartmentLocation(dnumber, dlocations));
+
+		}
 
 }//MyUtilitiesTest	
